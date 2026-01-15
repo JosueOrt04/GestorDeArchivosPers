@@ -1,0 +1,230 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>PCOSEW · Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./css/styles.css" />
+</head>
+<body>
+  <div class="app" id="appView" hidden>
+    <aside class="sidebar" aria-label="Navegación">
+      <div class="sidebar__brand">
+        <div class="logo" aria-hidden="true">
+          <span class="logo__dot"></span>
+          <span class="logo__dot logo__dot--2"></span>
+        </div>
+        <div>
+          <div class="brand__title">PCOSEW</div>
+          <div class="brand__sub">Panel principal</div>
+        </div>
+      </div>
+
+      <nav class="sidebar__nav">
+        <a class="nav__item nav__item--active" href="#" data-view="files">
+          <span class="nav__icon" aria-hidden="true">📁</span>
+          <span>Archivos</span>
+        </a>
+        <a class="nav__item" href="#" data-view="links">
+          <span class="nav__icon" aria-hidden="true">🔗</span>
+          <span>Enlaces</span>
+        </a>
+        <a class="nav__item" href="#" data-view="activity">
+          <span class="nav__icon" aria-hidden="true">🧾</span>
+          <span>Actividad</span>
+        </a>
+        <a class="nav__item" href="#" data-view="settings">
+          <span class="nav__icon" aria-hidden="true">⚙️</span>
+          <span>Ajustes</span>
+        </a>
+      </nav>
+
+      <div class="sidebar__footer">
+        <div class="user">
+          <div class="user__avatar" aria-hidden="true" id="userAvatar">U</div>
+          <div class="user__meta">
+            <div class="user__name" id="userName">Usuario</div>
+            <div class="user__role" id="userRole">—</div>
+          </div>
+        </div>
+        <button class="btn btn--ghost btn--block" id="btnLogout" type="button">
+          Cerrar sesión
+        </button>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="topbar__left">
+          <button class="icon-btn icon-btn--ghost" id="btnSidebar" type="button" aria-label="Abrir/cerrar menú">☰</button>
+          <div>
+            <h1 class="page-title" id="pageTitle">Archivos</h1>
+            <p class="page-subtitle" id="pageSubtitle">PCOSEW · UI lista para Rust + MongoDB</p>
+          </div>
+        </div>
+
+        <div class="topbar__right">
+          <div class="search">
+            <span class="search__icon" aria-hidden="true">⌕</span>
+            <input id="searchInput" type="search" placeholder="Buscar por nombre…" autocomplete="off" />
+          </div>
+
+          <button class="btn btn--primary" id="btnOpenUpload" type="button">
+            <span aria-hidden="true">⬆</span> Subir archivo
+          </button>
+        </div>
+      </header>
+
+      <section class="content">
+        <div class="grid grid--stats">
+          <article class="card stat">
+            <div class="stat__head"><div class="stat__label">Archivos</div><div class="chip">Total</div></div>
+            <div class="stat__value" id="statFiles">0</div>
+            <div class="stat__hint">Elementos</div>
+          </article>
+
+          <article class="card stat">
+            <div class="stat__head"><div class="stat__label">Almacenamiento</div><div class="chip chip--info">Usado</div></div>
+            <div class="stat__value" id="statStorage">0 MB</div>
+            <div class="stat__hint">Suma tamaños</div>
+          </article>
+
+          <article class="card stat">
+            <div class="stat__head"><div class="stat__label">Públicos</div><div class="chip chip--success">Share</div></div>
+            <div class="stat__value" id="statPublic">0</div>
+            <div class="stat__hint">Enlace</div>
+          </article>
+
+          <article class="card stat">
+            <div class="stat__head"><div class="stat__label">Descargas</div><div class="chip chip--warn">7 días</div></div>
+            <div class="stat__value" id="statDownloads">0</div>
+            <div class="stat__hint">Actividad</div>
+          </article>
+        </div>
+
+        <div class="toolbar">
+          <div class="toolbar__left">
+            <div class="segmented" role="tablist" aria-label="Filtro">
+              <button class="segmented__btn is-active" data-filter="all" type="button">Todos</button>
+              <button class="segmented__btn" data-filter="public" type="button">Públicos</button>
+              <button class="segmented__btn" data-filter="private" type="button">Privados</button>
+            </div>
+
+            <select class="select" id="sortSelect" aria-label="Ordenar">
+              <option value="newest">Más recientes</option>
+              <option value="oldest">Más antiguos</option>
+              <option value="name_asc">Nombre A–Z</option>
+              <option value="name_desc">Nombre Z–A</option>
+              <option value="size_desc">Tamaño (mayor)</option>
+              <option value="size_asc">Tamaño (menor)</option>
+            </select>
+          </div>
+
+          <div class="toolbar__right">
+            <button class="btn btn--ghost" id="btnRefresh" type="button">Actualizar</button>
+          </div>
+        </div>
+
+        <div class="card table-card">
+          <div class="table-card__head">
+            <div>
+              <h2 class="h2">Tus archivos</h2>
+              <p class="muted">Acciones: descargar, compartir, visibilidad y eliminar</p>
+            </div>
+            <div class="table-card__actions">
+              <button class="icon-btn" id="btnBulkDelete" type="button" title="Eliminar seleccionados">🗑️</button>
+            </div>
+          </div>
+
+          <div class="table-wrap" role="region" aria-label="Tabla de archivos" tabindex="0">
+            <table class="table" id="filesTable">
+              <thead>
+                <tr>
+                  <th style="width:40px"><input type="checkbox" id="chkAll"></th>
+                  <th>Nombre</th>
+                  <th>Tipo</th>
+                  <th>Tamaño</th>
+                  <th>Visibilidad</th>
+                  <th>Actualizado</th>
+                  <th style="width:220px">Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="filesTbody"></tbody>
+            </table>
+          </div>
+
+          <div class="empty" id="emptyState" hidden>
+            <div class="empty__icon" aria-hidden="true">📦</div>
+            <div class="empty__title">No hay archivos todavía</div>
+            <div class="empty__text">Sube tu primer archivo para empezar.</div>
+            <button class="btn btn--primary" id="btnEmptyUpload" type="button">Subir archivo</button>
+          </div>
+        </div>
+      </section>
+
+      <footer class="footer">
+        <span class="muted">PCOSEW · Dashboard</span>
+      </footer>
+    </main>
+  </div>
+
+  <!-- Upload Modal -->
+  <div class="modal" id="uploadModal" aria-hidden="true" role="dialog" aria-label="Subir archivo">
+    <div class="modal__backdrop" data-close="1"></div>
+    <div class="modal__panel" role="document">
+      <div class="modal__head">
+        <div>
+          <div class="modal__title">Subir archivo</div>
+          <div class="muted">Demo UI (conectaremos API luego)</div>
+        </div>
+        <button class="icon-btn icon-btn--ghost" data-close="1" type="button" aria-label="Cerrar">✕</button>
+      </div>
+
+      <form id="uploadForm" class="modal__body">
+        <label class="field">
+          <span class="field__label">Archivo</span>
+          <div class="dropzone" id="dropzone">
+            <input id="fileInput" type="file" />
+            <div class="dropzone__content">
+              <div class="dropzone__icon" aria-hidden="true">⬆</div>
+              <div class="dropzone__title">Arrastra y suelta aquí</div>
+              <div class="dropzone__text">o haz clic para seleccionar</div>
+            </div>
+          </div>
+          <div class="file-picked" id="filePicked" hidden>
+            <div class="file-picked__name" id="pickedName">—</div>
+            <div class="file-picked__meta" id="pickedMeta">—</div>
+          </div>
+        </label>
+
+        <div class="row">
+          <label class="field">
+            <span class="field__label">Nombre (opcional)</span>
+            <input class="input" id="customName" type="text" placeholder="Ej: contrato.pdf" />
+          </label>
+
+          <label class="field">
+            <span class="field__label">Visibilidad</span>
+            <select class="select" id="visibilitySelect">
+              <option value="private">Privado</option>
+              <option value="public">Público</option>
+            </select>
+          </label>
+        </div>
+
+        <div class="modal__foot">
+          <button class="btn btn--ghost" data-close="1" type="button">Cancelar</button>
+          <button class="btn btn--primary" type="submit">Subir</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="toasts" id="toasts" aria-live="polite" aria-atomic="true"></div>
+
+  <script src="./js/app.js"></script>
+</body>
+</html>

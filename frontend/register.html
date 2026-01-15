@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>PCOSEW · Registro</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./css/styles.css" />
+</head>
+<body>
+  <section class="auth">
+    <div class="auth__bg" aria-hidden="true"></div>
+
+    <div class="auth__wrap">
+      <div class="auth__brand">
+        <div class="logo" aria-hidden="true">
+          <span class="logo__dot"></span>
+          <span class="logo__dot logo__dot--2"></span>
+        </div>
+        <div>
+          <div class="brand__title">PCOSEW</div>
+          <div class="brand__sub">Gestor De Archivos</div>
+        </div>
+      </div>
+
+      <div class="card auth__card">
+        <div class="auth__head">
+          <h1 class="auth__title">Crear cuenta</h1>
+          <p class="auth__subtitle">Regístrate para empezar</p>
+        </div>
+
+        <form id="registerForm" class="auth__form">
+          <div class="row">
+            <label class="field">
+              <span class="field__label">Nombre</span>
+              <input class="input" type="text" id="regName" placeholder="Joshua" required />
+            </label>
+
+            <label class="field">
+              <span class="field__label">Rol</span>
+              <select class="select" id="regRole" required>
+                <option value="cliente">Cliente</option>
+                <option value="colaborador">Colaborador</option>
+              </select>
+            </label>
+          </div>
+
+          <label class="field">
+            <span class="field__label">Correo</span>
+            <input class="input" type="email" id="regEmail" placeholder="tucorreo@ejemplo.com" required />
+          </label>
+
+          <div class="row">
+            <label class="field">
+              <span class="field__label">Contraseña</span>
+              <div class="input-group">
+                <input class="input" type="password" id="regPassword" placeholder="mínimo 6 caracteres" required minlength="6" />
+                <button class="icon-btn icon-btn--ghost" type="button" id="toggleRegPass" aria-label="Mostrar/ocultar contraseña">👁️</button>
+              </div>
+            </label>
+
+            <label class="field">
+              <span class="field__label">Confirmar</span>
+              <input class="input" type="password" id="regConfirm" placeholder="repite la contraseña" required minlength="6" />
+            </label>
+          </div>
+
+          <label class="check">
+            <input type="checkbox" id="terms" required />
+            <span>Acepto términos y políticas</span>
+          </label>
+
+          <button class="btn btn--primary btn--block" type="submit">Crear cuenta</button>
+
+          <div class="auth__switch">
+            ¿Ya tienes cuenta?
+            <a class="link" href="./login.html">Iniciar sesión</a>
+          </div>
+
+          <div class="auth__hint">
+            En producción: Rust + MongoDB + JWT (hash seguro).
+          </div>
+        </form>
+      </div>
+
+      <div class="auth__foot muted">
+        © <span id="year"></span> PCOSEW
+      </div>
+    </div>
+  </section>
+
+  <div class="toasts" id="toasts" aria-live="polite" aria-atomic="true"></div>
+
+  <script src="./js/auth.js"></script>
+</body>
+</html>

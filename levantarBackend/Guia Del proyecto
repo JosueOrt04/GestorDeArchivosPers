@@ -1,0 +1,10 @@
+Comandos para correrlos
+cd Backend
+cargo run
+cd frontend
+python3 -m http.server 5173
+
+
+Descargas librerias para funcionamiento del rust y eliminar 
+cargo clean
+cargo build

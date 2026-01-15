@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>PCOSEW · Login</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./css/styles.css" />
+</head>
+<body>
+  <section class="auth">
+    <div class="auth__bg" aria-hidden="true"></div>
+
+    <div class="auth__wrap">
+      <div class="auth__brand">
+        <div class="logo" aria-hidden="true">
+          <span class="logo__dot"></span>
+          <span class="logo__dot logo__dot--2"></span>
+        </div>
+        <div>
+          <div class="brand__title">PCOSEW</div>
+          <div class="brand__sub">Gestor De Archivos</div>
+        </div>
+      </div>
+
+      <div class="card auth__card">
+        <div class="auth__head">
+          <h1 class="auth__title">Iniciar sesión</h1>
+          <p class="auth__subtitle">Accede a tu cuenta para continuar</p>
+        </div>
+
+        <form id="loginForm" class="auth__form">
+          <label class="field">
+            <span class="field__label">Correo</span>
+            <input class="input" type="email" id="loginEmail" placeholder="tucorreo@ejemplo.com" required />
+          </label>
+
+          <label class="field">
+            <span class="field__label">Contraseña</span>
+            <div class="input-group">
+              <input class="input" type="password" id="loginPassword" placeholder="••••••••" required minlength="6" />
+              <button class="icon-btn icon-btn--ghost" type="button" id="toggleLoginPass" aria-label="Mostrar/ocultar contraseña">👁️</button>
+            </div>
+          </label>
+
+          <div class="auth__row">
+            <label class="check">
+              <input type="checkbox" id="rememberMe" />
+              <span>Recordarme</span>
+            </label>
+            <a class="link" href="#" id="forgotBtn">¿Olvidaste tu contraseña?</a>
+          </div>
+
+          <button class="btn btn--primary btn--block" type="submit">Entrar</button>
+
+          <div class="auth__switch">
+            ¿No tienes cuenta?
+            <a class="link" href="./register.html">Crear cuenta</a>
+          </div>
+
+          <div class="auth__hint">
+            Demo (sin backend): correo válido y contraseña ≥ 6.
+          </div>
+        </form>
+      </div>
+
+      <div class="auth__foot muted">
+        © <span id="year"></span> PCOSEW
+      </div>
+    </div>
+  </section>
+
+  <div class="toasts" id="toasts" aria-live="polite" aria-atomic="true"></div>
+
+  <script src="./js/auth.js"></script>
+</body>
+</html>
